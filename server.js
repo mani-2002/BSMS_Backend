@@ -3,7 +3,7 @@
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
 const cors = require("cors");
-
+require("dotenv").config();
 const app = express();
 const port = 5000;
 
@@ -12,14 +12,14 @@ app.use(express.json());
 app.use(cors());
 
 // Connection URL
-const url = "mongodb://127.0.0.1:27017/bookstore";
+// const url = "mongodb+srv://mani2002:Mani2117@cluster0.ny1cu7p.mongodb.net/bookstore?retryWrites=true&w=majority";
 
 // Database Name
 const dbName = "bookstore";
 
 // Function to connect to MongoDB
 async function connectDB() {
-  const client = await MongoClient.connect(url);
+  const client = await MongoClient.connect(process.env.MONGO_URL);
   return client.db(dbName);
 }
 
@@ -92,6 +92,6 @@ app.put("/api/books/:id", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${port}`);
 });
